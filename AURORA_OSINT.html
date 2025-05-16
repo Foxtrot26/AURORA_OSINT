@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OSINT Vyhľadávač</title>
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --text-color: #333;
+      --container-bg: white;
+      --input-bg: white;
+    }
+
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --container-bg: #1e1e1e;
+      --input-bg: #2a2a2a;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    h1 {
+      color: var(--text-color);
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: var(--container-bg);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1rem;
+      background: var(--input-bg);
+      color: var(--text-color);
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+    .toggle-btn {
+      float: right;
+      margin-top: -40px;
+      margin-right: 10px;
+      background: none;
+      border: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="toggle-btn" onclick="toggleDarkMode()">Prepni tému</button>
+    <h1>OSINT Vyhľadávač</h1>
+    <label for="type">Typ vyhľadávania:</label>
+    <select id="type">
+      <option value="email">Email</option>
+      <option value="phone">Telefónne číslo</option>
+    </select>
+    <input type="text" id="query" placeholder="Zadaj email alebo číslo">
+    <button onclick="search()">Vyhľadať</button>
+
+    <table id="results" style="display:none;">
+      <thead>
+        <tr>
+          <th>Vstupný údaj</th>
+          <th>Web</th>
+          <th>Používateľské meno / ID</th>
+        </tr>
+      </thead>
+      <tbody id="result-body">
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function search() {
+      const type = document.getElementById('type').value;
+      const query = document.getElementById('query').value.trim();
+
+      if (!query) {
+        alert('Zadaj email alebo číslo.');
+        return;
+      }
+
+      const simulatedResults = [
+        { web: 'www.facebook.com', user: 'john.mclanne.54' },
+        { web: 'www.instagram.com', user: 'real_john_mclanne' },
+        { web: 'www.github.com', user: 'jmclanne_dev' }
+      ];
+
+      const tbody = document.getElementById('result-body');
+      tbody.innerHTML = '';
+
+      simulatedResults.forEach(result => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${query}</td>
+          <td>${result.web}</td>
+          <td>${result.user}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('results').style.display = 'table';
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+  </script>
+</body>
+</html>
